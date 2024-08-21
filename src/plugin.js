@@ -1,12 +1,11 @@
 import videojs from 'video.js';
-import { version as VERSION } from '../package.json';
 
 const defaults = {};
 const cache = {};
 
 const onPlayerReady = (player, options) => {
   player.addClass('vjs-vtt-thumbnails');
-  player.vttThumbnails = new vttThumbnailsPlugin(player, options);
+  player.vttThumbnailsPlugin = new VttThumbnailsPlugin(player, options);
 };
 
 const vttThumbnails = function(options) {
@@ -15,7 +14,7 @@ const vttThumbnails = function(options) {
   });
 };
 
-class vttThumbnailsPlugin {
+class VttThumbnailsPlugin {
   constructor(player, options) {
     this.player = player;
     this.options = options;
@@ -180,14 +179,14 @@ class vttThumbnailsPlugin {
 
     const xPos = percent * width;
     const thumbnailWidth = parseInt(currentStyle.width, 10);
-    const halfthumbnailWidth = thumbnailWidth >> 1;
-    const marginRight = width - (xPos + halfthumbnailWidth);
-    const marginLeft = xPos - halfthumbnailWidth;
+    const halfThumbnailWidth = thumbnailWidth >> 1;
+    const marginRight = width - (xPos + halfThumbnailWidth);
+    const marginLeft = xPos - halfThumbnailWidth;
 
     if (width < thumbnailWidth) {
       this.thumbnailHolder.style.left = (thumbnailWidth - width) / 2 * -1 + 'px';
     } else if (marginLeft > 0 && marginRight > 0) {
-      this.thumbnailHolder.style.left = (xPos - halfthumbnailWidth) + 'px';
+      this.thumbnailHolder.style.left = (xPos - halfThumbnailWidth) + 'px';
     } else if (marginLeft <= 0) {
       this.thumbnailHolder.style.left = 0 + 'px';
     } else if (marginRight <= 0) {
